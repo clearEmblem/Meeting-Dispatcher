@@ -83,7 +83,6 @@ def get_llm_generated_subject(minutes_text):
     Calls the AI service (ai_service.py) to generate a meeting subject.
     This function acts as a bridge.
     """
-    print("agent_core.py: get_llm_generated_subject wrapper called.") # DEBUG
     return generate_subject_with_llm(minutes_text)
 
 def get_llm_reformatted_minutes(minutes_text):
@@ -91,5 +90,4 @@ def get_llm_reformatted_minutes(minutes_text):
     Calls the AI service (ai_service.py) to reformat meeting minutes.
     This function acts as a bridge.
     """
-    print("agent_core.py: get_llm_reformatted_minutes wrapper called.") # DEBUG
     return reformat_minutes_with_llm(minutes_text)

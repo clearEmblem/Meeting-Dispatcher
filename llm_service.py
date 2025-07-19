@@ -35,7 +35,7 @@ def generate_subject_with_llm(minutes_text):
         sys.stdout.flush()
         
         response = _client.models.generate_content(
-            model="gemini-2.5-flash", 
+            model="gemini-2.5-pro", 
             contents=subject_prompt,
             config=types.GenerateContentConfig(
                 thinking_config=types.ThinkingConfig(thinking_budget=500),
