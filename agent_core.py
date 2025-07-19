@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 
 # --- NEW: Import LLM functions from your ai_service.py file ---
 from llm_service import generate_subject_with_llm, reformat_minutes_with_llm
-print("agent_core.py: ai_service imported.") # DEBUG
 
 # --- Configuration (Loaded only once per process) ---
 load_dotenv()

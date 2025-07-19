@@ -22,7 +22,6 @@ sys.stdout.flush()
 # --- LLM Helper Functions ---
 
 def generate_subject_with_llm(minutes_text):
-    print("\n--- ai_service.py: Calling generate_subject_with_llm ---") # Debug Header
     sys.stdout.flush()
     try:
         subject_prompt = (
@@ -31,7 +30,6 @@ def generate_subject_with_llm(minutes_text):
             f"\n\n{minutes_text}"
         )
 
-        print("ai_service.py: Subject API call starting...")
         sys.stdout.flush()
         
         response = _client.models.generate_content(
@@ -43,9 +41,6 @@ def generate_subject_with_llm(minutes_text):
             ),
         )
         
-        print("--- ai_service.py: RAW LLM SUBJECT RESPONSE OBJECT ---")
-        pprint.pprint(response) # <--- PRINT THE ENTIRE RESPONSE OBJECT
-        print("--- END RAW LLM SUBJECT RESPONSE OBJECT ---")
         sys.stdout.flush()
         
         subject = response.text.strip().replace('**', '') 
@@ -57,7 +52,6 @@ def generate_subject_with_llm(minutes_text):
         return "AI Agent Email - Meeting Minutes (LLM Error)"
 
 def reformat_minutes_with_llm(minutes_text):
-    print("\n--- ai_service.py: Calling reformat_minutes_with_llm ---") # Debug Header
     sys.stdout.flush()
     try:
         minutes_reformat_prompt = (
@@ -90,7 +84,6 @@ def reformat_minutes_with_llm(minutes_text):
             f"\n\nHere are the raw meeting notes to be transformed into professional minutes:\n{minutes_text}"
         )
 
-        print("ai_service.py: Reformat API call starting...")
         sys.stdout.flush()
         
         response = _client.models.generate_content(
@@ -102,9 +95,7 @@ def reformat_minutes_with_llm(minutes_text):
             ),
         )
         
-        print("--- ai_service.py: RAW LLM REFORMAT RESPONSE OBJECT ---")
-        pprint.pprint(response) # <--- PRINT THE ENTIRE RESPONSE OBJECT
-        print("--- END RAW LLM REFORMAT RESPONSE OBJECT ---")
+
         sys.stdout.flush()
         
         reformatted_minutes = response.text.strip().replace('**', '') 
