@@ -8,14 +8,16 @@ import traceback # <--- NEW IMPORT for full tracebacks
 
 # --- Configuration (Loaded only once when this module is imported) ---
 load_dotenv()
-print("ai_service.py: .env loaded.") 
 sys.stdout.flush() 
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
+if not GEMINI_API_KEY:
+    print("FATAL ERROR: GEMINI_API_KEY not found. Check your .env file.")
+    sys.exit(1) # Exit if the key is missing
+
     
-_client = genai.Client()
-print("ai_service.py: Gemini Client instantiated.")
+_client = genai.Client(api_key=GEMINI_API_KEY)
 sys.stdout.flush()
 
 

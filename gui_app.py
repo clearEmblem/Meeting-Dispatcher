@@ -1,7 +1,12 @@
-import tkinter as tk
-from tkinter import filedialog, scrolledtext, messagebox
 import sys
 import os
+
+if hasattr(sys, '_MEIPASS'):
+    os.chdir(sys._MEIPASS)
+    
+import tkinter as tk
+from tkinter import filedialog, scrolledtext, messagebox
+
 import re
 
 from agent_core import (
@@ -296,17 +301,10 @@ class MeetingDispatcherApp:
         detailed_description = get_llm_reformatted_minutes(cleaned_minutes)
         self.log_message("AI generation complete.")
 
-        email_body = f"Dear Team,\n\nPlease find the meeting minutes below:\n\n{detailed_description}\n\nBest regards,\nYour Meeting Dispatcher Agent"
-        self.show_email_preview(meeting_subject, detailed_description)
-
-        if not self.preview_confirmed:
-            self.log_message("🚫 Email sending cancelled by user from preview.")
-            return
-
-        # --- ADDED BACK: Log the final recipient list ---
+        # --- MOVED: Log the recipient list BEFORE showing the preview window ---
+        self.log_message("\n--- Preparing Email Draft ---")
         self.log_message(f"Primary Recipient (To): {primary_to_email}")
         if cc_recipients:
-            # Display up to 5 CC recipients for readability, then add '...'
             cc_display_list = cc_recipients[:5]
             additional_cc_count = len(cc_recipients) - 5
             
@@ -316,7 +314,14 @@ class MeetingDispatcherApp:
             self.log_message(log_str)
         else:
             self.log_message("No other recipients to CC.")
-        # ---------------------------------------------------
+        # -------------------------------------------------------------------
+
+        email_body = f"Dear Team,\n\nPlease find the meeting minutes below:\n\n{detailed_description}\n\nBest regards,\nYour Meeting Dispatcher Agent"
+        self.show_email_preview(meeting_subject, detailed_description)
+
+        if not self.preview_confirmed:
+            self.log_message("🚫 Email sending cancelled by user from preview.")
+            return
         
         self.log_message("Initiating email send...")
         if send_email_collective(primary_to_email, cc_recipients, meeting_subject, email_body):
@@ -326,10 +331,10 @@ class MeetingDispatcherApp:
         else:
             self.log_message("❌ Failed to send collective email.")
 
-
 # --- Main Application Execution ---
 if __name__ == "__main__":
     print("Script started.")
+    
     root = tk.Tk()
     app = MeetingDispatcherApp(root)
     root.mainloop()
