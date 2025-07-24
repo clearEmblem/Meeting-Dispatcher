@@ -6,4 +6,3 @@ __pycache__/
 # PyInstaller build directories
 build/
 dist/
-test
